@@ -1,32 +1,42 @@
 #include <iostream>
 using namespace std;
 
-struct nazwaklasy {
+enum ClassType { WARRIOR, MAGE, PYROMANCER, PRIEST, KNIGHT };
+
+struct Character {
     int strength;
     int dexterity;
     int intelligence;
     int faith;
     string char_name;
     const int start_level;
+    ClassType class_type;
 
-    nazwaklasy(string name, int str, int dex, int intel, int fai, int level)
-        : char_name(name), strength(str), dexterity(dex), intelligence(intel), faith(fai), start_level(level) {}
+    Character(string name, int str, int dex, int intel, int fai, int level, ClassType c_type)
+        : char_name(name), strength(str), dexterity(dex), intelligence(intel), faith(fai), start_level(level), class_type(c_type) {}
+
+    void printClass()
+    {
+        cout << "Character: " << char_name << " | Class: ";
+        switch (class_type) {
+        case WARRIOR: cout << "Warrior"; break;
+        case MAGE: cout << "Mage"; break;
+        case PYROMANCER: cout << "Rogue"; break;
+        case PRIEST: cout << "Priest"; break;
+        case KNIGHT: cout << "Knight"; break;
+        }
+        cout << endl;
+    }
 };
 
-void levelUp(nazwaklasy& character, int current_level)
-{
-    int exp = 0;
-    if (current_level == character.start_level)
-    {
-        cout << character.char_name << " is at the starting level.\n";
-    }
-}
+int main() {
+    Character hero1("Arthur", 12, 7, 5, 3, 1, WARRIOR);
+    Character hero2("Merlin", 4, 6, 15, 10, 1, MAGE);
+    Character hero3("Robin", 8, 12, 6, 5, 1, ROGUE);
 
-int main()
-{
-    nazwaklasy hero("Warrior", 10, 8, 5, 6, 1);
-
-    levelUp(hero, 1);
+    hero1.printClass();
+    hero2.printClass();
+    hero3.printClass();
 
     return 0;
 }
