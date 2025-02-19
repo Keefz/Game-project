@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slytherium - Gra MMORPG</title>
+    <style>
+        body {
+            display: flex;
+            background-color: #2c2f33;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        #game-container {
+            flex-grow: 1;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background-color: #1e2124;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #player {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            position: absolute;
+        }
+        #inventory {
+            width: 250px;
+            background-color: #23272a;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .equipment-slot, .bag-slot, .item-slot {
+            width: 6px;
+            height: 6px;
+            background-color: #99aab5;
+            margin: 2px;
+            display: inline-block;
+            border: 1px solid #7289da;
+        }
+        .bag-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        .inventory-grid {
+            display: none;
+            grid-template-columns: repeat(6, 6px);
+            gap: 2px;
+            margin-top: 10px;
+        }
+        .active {
+            display: grid;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="player"></div>
+        <h1>Witaj w Slytherium</h1>
+        <p>Poruszaj się po świecie i zbieraj łupy!</p>
+    </div>
+    <div id="inventory">
+        <h2>Ekwipunek</h2>
+        <div class="equipment">
+            <div class="equipment-slot">H</div>
+            <div class="equipment-slot">Z</div>
+            <div class="equipment-slot">B</div>
+            <div class="equipment-slot">T</div>
+            <div class="equipment-slot">B</div>
+        </div>
+        <h3>Torby</h3>
+        <div class="bag-container">
+            <div class="bag-slot" onclick="switchBag(0)">T1</div>
+            <div class="bag-slot" onclick="switchBag(1)">T2</div>
+            <div class="bag-slot" onclick="switchBag(2)">T3</div>
+        </div>
+        <div id="bag-contents">
+            <div class="inventory-grid" id="bag-0"></div>
+            <div class="inventory-grid" id="bag-1"></div>
+            <div class="inventory-grid" id="bag-2"></div>
+        </div>
+    </div>
+    <script>
+        const bagContents = document.querySelectorAll('.inventory-grid');
+
+        function switchBag(index) {
+            bagContents.forEach((bag, i) => {
+                bag.classList.toggle('active', i === index);
+            });
+        }
+
+        function generateSlots() {
+            bagContents.forEach(bag => {
+                for (let i = 0; i < 42; i++) {
+                    let slot = document.createElement('div');
+                    slot.className = 'item-slot';
+                    bag.appendChild(slot);
+                }
+            });
+        }
+        generateSlots();
+
+        // Ustawienie gracza na środku ekranu
+        function centerPlayer() {
+            const player = document.getElementById('player');
+            const gameContainer = document.getElementById('game-container');
+            player.style.left = `${(gameContainer.clientWidth / 2) - 15}px`;
+            player.style.top = `${(gameContainer.clientHeight / 2) - 15}px`;
+        }
+        window.onload = centerPlayer;
+        window.onresize = centerPlayer;
+    </script>
+</body>
+</html>
