@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-enum ClassType { WARRIOR, MAGE, PRIEST};
+enum ClassType { WARRIOR, MAGE, PRIEST, PALADIN, ASSASIN};
 
 struct Character {
     int strength;
@@ -22,6 +22,8 @@ struct Character {
         case WARRIOR: cout << "Warrior"; break;
         case MAGE: cout << "Mage"; break;
         case PRIEST: cout << "Priest"; break;
+        case PALADIN: cout << "Paladin"; break;
+        case ASSASIN: cout << "Assasin"; break;
         }
         cout << endl;
     }
