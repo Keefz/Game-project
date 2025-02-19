@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slytherium - MMORPG</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #2c2f33;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #map {
+            position: absolute;
+            width: 2000px;
+            height: 2000px;
+            background: url('mapa.png') repeat;
+        }
+        #player {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #ui {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: #23272a;
+            padding: 10px;
+        }
+        .equipment-slot, .bag-slot, .item-slot {
+            width: 18px; /* Trzykrotne powiększenie */
+            height: 18px;
+            background-color: #99aab5;
+            margin: 4px;
+            display: inline-block;
+            border: 2px solid #7289da;
+        }
+        .bag-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        .inventory-grid {
+            display: none;
+            grid-template-columns: repeat(6, 18px);
+            gap: 4px;
+            margin-top: 10px;
+        }
+        .active {
+            display: grid;
+        }
+        #health {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: red;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="map">
+            <div id="player"></div>
+        </div>
+    </div>
+    <div id="ui">
+        <h2>Ekwipunek</h2>
+        <div class="equipment">
+            <div class="equipment-slot">H</div>
+            <div class="equipment-slot">Z</div>
+            <div class="equipment-slot">B</div>
+            <div class="equipment-slot">T</div>
+            <div class="equipment-slot">B</div>
+        </div>
+        <h3>Torby</h3>
+        <div class="bag-container">
+            <div class="bag-slot" onclick="switchBag(0)">T1</div>
+            <div class="bag-slot" onclick="switchBag(1)">T2</div>
+            <div class="bag-slot" onclick="switchBag(2)">T3</div>
+        </div>
+        <div id="bag-contents">
+            <div class="inventory-grid" id="bag-0"></div>
+            <div class="inventory-grid" id="bag-1"></div>
+            <div class="inventory-grid" id="bag-2"></div>
+        </div>
+    </div>
+    <div id="health">HP: 1000/1000</div>
+    <script>
+        const player = document.getElementById('player');
+        const map = document.getElementById('map');
+        let playerX = 1000, playerY = 1000;
+        let speed = 5;
+
+        window.addEventListener('keydown', (e) => {
+            switch (e.key) {
+                case 'ArrowUp': playerY -= speed; break;
+                case 'ArrowDown': playerY += speed; break;
+                case 'ArrowLeft': playerX -= speed; break;
+                case 'ArrowRight': playerX += speed; break;
+            }
+            map.style.transform = `translate(${-playerX + window.innerWidth / 2}px, ${-playerY + window.innerHeight / 2}px)`;
+        });
+
+        function switchBag(index) {
+            document.querySelectorAll('.inventory-grid').forEach((bag, i) => {
+                bag.classList.toggle('active', i === index);
+            });
+        }
+
+        function generateSlots() {
+            document.querySelectorAll('.inventory-grid').forEach(bag => {
+                for (let i = 0; i < 32; i++) {
+                    let slot = document.createElement('div');
+                    slot.className = 'item-slot';
+                    bag.appendChild(slot);
+                }
+            });
+        }
+        generateSlots();
+    </script>
+</body>
+</html>
